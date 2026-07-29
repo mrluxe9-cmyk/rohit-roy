@@ -1,0 +1,164 @@
+/* =========================
+   RESPONSIVE.CSS
+========================= */
+
+/* Mobile */
+
+@media screen and (max-width:768px){
+
+.container{
+    width:92%;
+    margin:auto;
+}
+
+.navbar .container{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    height:70px;
+}
+
+.logo img{
+    width:45px;
+    height:45px;
+}
+
+.logo span{
+    font-size:22px;
+}
+
+.menu-btn{
+    display:block;
+    font-size:34px;
+    color:#D4AF37;
+    cursor:pointer;
+}
+
+.nav-links{
+    display:none;
+    position:absolute;
+    top:70px;
+    right:10px;
+    width:220px;
+    background:#111;
+    border:1px solid #D4AF37;
+    border-radius:12px;
+    padding:20px;
+}
+
+.nav-links.active{
+    display:block;
+}
+
+.hero{
+    padding-top:15px;
+}
+
+.hero-content{
+    flex-direction:column;
+    text-align:center;
+}
+
+.hero-image img{
+    width:100%;
+    max-width:320px;
+}
+
+.hero-text h1{
+    font-size:38px;
+}
+
+.hero-text p{
+    font-size:16px;
+}
+
+.about-content{
+    grid-template-columns:1fr;
+    text-align:center;
+}
+
+.skills-grid,
+.stats-grid,
+.gallery-grid{
+    grid-template-columns:1fr;
+}
+
+.contact-card{
+    padding:25px;
+}
+
+}
+
+/* Tablet */
+
+@media screen and (min-width:769px) and (max-width:1024px){
+
+.skills-grid{
+    grid-template-columns:repeat(2,1fr);
+}
+
+.stats-grid{
+    grid-template-columns:repeat(2,1fr);
+}
+
+.gallery-grid{
+    grid-template-columns:repeat(2,1fr);
+}
+
+.menu-btn{
+    display:none;
+}
+
+.nav-links{
+    display:flex;
+    gap:20px;
+    position:static;
+    width:auto;
+    background:none;
+    border:none;
+    padding:0;
+}
+
+}
+
+/* Desktop */
+
+@media screen and (min-width:1025px){
+
+.menu-btn{
+    display:none;
+}
+
+.nav-links{
+    display:flex;
+    gap:30px;
+    position:static;
+    width:auto;
+    background:none;
+    border:none;
+    padding:0;
+}
+
+.hero-content{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.about-content{
+    grid-template-columns:1fr 1fr;
+}
+
+.skills-grid{
+    grid-template-columns:repeat(4,1fr);
+}
+
+.stats-grid{
+    grid-template-columns:repeat(4,1fr);
+}
+
+.gallery-grid{
+    grid-template-columns:repeat(3,1fr);
+}
+
+}

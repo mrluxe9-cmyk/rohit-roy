@@ -1,0 +1,970 @@
+/* =====================================================================
+   MR LUXE — Premium Black & Gold Stylesheet
+   Founder: Rohit Roy | Luxury Jewellery Packaging
+   Author: Principal Frontend / CSS Architecture pass
+   Notes: HTML, class names, IDs and section order are untouched.
+          This single file is safe to load as both style.css and
+          responsive.css (or link only this one — see bottom for the
+          mobile-menu JS contract this CSS expects).
+   ===================================================================== */
+
+/* ---------------------------------------------------------------------
+   0. FONTS
+   Poppins is already linked in <head> for body/UI text.
+   Cormorant Garamond is added here (CSS-only, no HTML edits) as the
+   luxury display serif for headlines — the quiet-jeweller counterpoint
+   to Poppins, echoing the facet motif used throughout as the signature
+   element (see 2. SIGNATURE MOTIF).
+   --------------------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&display=swap');
+
+/* ---------------------------------------------------------------------
+   1. RESET
+   --------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+/* ---------------------------------------------------------------------
+   2. DESIGN TOKENS
+   Palette: near-black ground, warm antique gold accent, warm ivory text.
+   Signature element: a thin gold hairline paired with a rotated
+   "facet" square (see .eyebrow::before) used before every eyebrow /
+   kicker label — a nod to a cut gemstone corner, tying the luxury-
+   packaging brand identity into the type system itself.
+   --------------------------------------------------------------------- */
+:root {
+  /* Colors */
+  --color-bg: #0a0a0c;
+  --color-bg-alt: #121215;
+  --color-surface: #17171b;
+  --color-surface-2: #1d1d22;
+  --color-border: rgba(201, 164, 77, 0.22);
+  --color-border-strong: rgba(201, 164, 77, 0.45);
+
+  --color-gold-light: #e8cd82;
+  --color-gold: #c9a44d;
+  --color-gold-dark: #8f7024;
+
+  --color-text: #f4efe4;
+  --color-text-muted: #b7b1a4;
+  --color-text-faint: #8a8479;
+
+  --gradient-gold: linear-gradient(135deg, var(--color-gold-light), var(--color-gold) 55%, var(--color-gold-dark));
+
+  /* Typography */
+  --font-display: 'Cormorant Garamond', 'Poppins', serif;
+  --font-body: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --fs-h1: clamp(2.5rem, 5vw + 1rem, 4.5rem);
+  --fs-h2: clamp(1.9rem, 3vw + 1rem, 3rem);
+  --fs-h3: clamp(1.15rem, 1vw + 0.9rem, 1.5rem);
+  --fs-lead: clamp(1.05rem, 0.5vw + 0.95rem, 1.2rem);
+  --fs-body: 1rem;
+  --fs-small: 0.875rem;
+  --fs-eyebrow: 0.8rem;
+
+  /* Spacing scale (4px base) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+  --space-10: 8rem;
+
+  /* Layout */
+  --container-width: 1200px;
+  --container-pad: 1.25rem;
+  --section-pad: clamp(3.5rem, 7vw, 7rem);
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-pill: 999px;
+
+  /* Elevation */
+  --shadow-soft: 0 10px 30px -12px rgba(0, 0, 0, 0.55);
+  --shadow-gold: 0 8px 24px -8px rgba(201, 164, 77, 0.35);
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 12px 28px -16px rgba(0, 0, 0, 0.6);
+
+  /* Motion */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 0.2s;
+  --dur-mid: 0.4s;
+}
+
+/* ---------------------------------------------------------------------
+   3. BASE / TYPOGRAPHY
+   --------------------------------------------------------------------- */
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  font-weight: 300;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--color-text);
+  letter-spacing: 0.01em;
+}
+
+h1 { font-size: var(--fs-h1); font-weight: 700; }
+h2 { font-size: var(--fs-h2); }
+h3 { font-size: var(--fs-h3); font-family: var(--font-body); font-weight: 500; }
+
+p {
+  color: var(--color-text-muted);
+  font-size: var(--fs-body);
+}
+
+strong {
+  color: var(--color-gold-light);
+  font-weight: 600;
+}
+
+::selection {
+  background: var(--color-gold);
+  color: #101012;
+}
+
+/* Accessible focus ring for keyboard users */
+a:focus-visible,
+button:focus-visible,
+.btn:focus-visible,
+.menu-btn:focus-visible {
+  outline: 2px solid var(--color-gold-light);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* Skip-to-content link: hidden until keyboard-focused */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: var(--space-4);
+  z-index: 1000;
+  background: var(--color-gold);
+  color: #14120a;
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-small);
+  font-weight: 600;
+  transition: top var(--dur-fast) var(--ease);
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+}
+
+/* ---------------------------------------------------------------------
+   4. LAYOUT UTILITIES
+   --------------------------------------------------------------------- */
+.container {
+  width: 100%;
+  max-width: var(--container-width);
+  margin-inline: auto;
+  padding-inline: var(--container-pad);
+}
+
+section {
+  padding-block: var(--section-pad);
+  position: relative;
+}
+
+/* Eyebrow / kicker label used ahead of headings across sections.
+   The rotated square is the brand's recurring "cut facet" signature. */
+.section-title {
+  text-align: center;
+  margin-bottom: var(--space-8);
+}
+
+.section-title h2 {
+  margin-bottom: var(--space-3);
+}
+
+.section-title p {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--fs-eyebrow);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  justify-content: center;
+}
+
+.section-title p::before,
+.section-title p::after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  background: var(--gradient-gold);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+
+/* ---------------------------------------------------------------------
+   5. BUTTONS
+   --------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 0.9rem 2rem;
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-small);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+  transition: transform var(--dur-fast) var(--ease),
+              box-shadow var(--dur-fast) var(--ease),
+              background var(--dur-fast) var(--ease),
+              color var(--dur-fast) var(--ease);
+  white-space: nowrap;
+}
+
+.btn.primary {
+  background: var(--gradient-gold);
+  color: #14120a;
+  box-shadow: var(--shadow-gold);
+}
+
+.btn.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -8px rgba(201, 164, 77, 0.5);
+}
+
+.btn.secondary {
+  background: transparent;
+  color: var(--color-gold-light);
+  border-color: var(--color-border-strong);
+}
+
+.btn.secondary:hover {
+  background: rgba(201, 164, 77, 0.08);
+  border-color: var(--color-gold);
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+/* ---------------------------------------------------------------------
+   6. NAVBAR
+   Not sticky — scrolls away naturally with the page.
+   --------------------------------------------------------------------- */
+.navbar {
+  padding-block: var(--space-5);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg);
+  /* FIX: the dropdown now anchors here instead of .navbar .container.
+     .container has its own padding-inline, which made "right: 0"
+     resolve against the *inside* of that padding — a correct but
+     fragile reference that could end up misaligned with the
+     hamburger (or, combined with box-sizing/rounding, push the
+     dropdown past the viewport edge). Anchoring to .navbar (full
+     width, no padding) and offsetting by the same --container-pad
+     value the button itself is aligned with is a single, direct
+     reference — the dropdown can't drift from the hamburger because
+     they're now measured from the same edge with the same value. */
+  position: relative;
+}
+
+.navbar .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.logo img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.logo span {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-text);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-7);
+}
+
+.nav-links a {
+  font-size: var(--fs-small);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: var(--color-text-muted);
+  position: relative;
+  padding-bottom: 4px;
+  transition: color var(--dur-fast) var(--ease);
+}
+
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 1px;
+  background: var(--gradient-gold);
+  transition: width var(--dur-mid) var(--ease);
+}
+
+.nav-links a:hover {
+  color: var(--color-gold-light);
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+/* Hamburger — hidden on desktop, sized sensibly on mobile (see breakpoints)
+   FIX: previously this centered a "☰" text glyph with
+   align-items/justify-content. That flex centering was correct — it
+   was centering the *box*, not the *ink* — but ☰ isn't in Poppins,
+   so it fell back through the font stack to whatever symbol font
+   each OS/browser supplies. Those fallback glyphs carry their own
+   (often asymmetric) left/right side bearings, so the visible mark
+   sat off-center inside a perfectly-centered box. No CSS conflict
+   was found (no stray ::before/::after, transform, or margin/padding
+   on .menu-btn) — the box was always centered correctly.
+   Fix: draw the icon with three real elements (.menu-btn-bar) sized
+   and centered by flexbox instead of relying on any font's glyph
+   metrics. A drawn shape has no side bearing to be uneven, so it's
+   pixel-centered identically on every browser/OS. */
+.menu-btn {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  appearance: none;
+  background: transparent;
+  padding: 0;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease);
+}
+
+.menu-btn:hover {
+  background: rgba(201, 164, 77, 0.08);
+}
+
+.menu-btn-bar {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background-color: var(--color-gold-light);
+  border-radius: var(--radius-pill);
+  flex-shrink: 0;
+}
+
+/* ---------------------------------------------------------------------
+   7. HERO
+   --------------------------------------------------------------------- */
+.hero {
+  padding-block: var(--space-10) var(--space-9);
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.hero-text {
+  text-align: center;
+  max-width: 640px;
+}
+
+.hero-text h3 {
+  font-family: var(--font-body);
+  font-size: var(--fs-eyebrow);
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin-bottom: var(--space-4);
+}
+
+.hero-text h1 {
+  margin-bottom: var(--space-5);
+}
+
+.hero-text h1 span {
+  display: block;
+  background: var(--gradient-gold);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero-text p {
+  font-size: var(--fs-lead);
+  margin-bottom: var(--space-6);
+}
+
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  justify-content: center;
+}
+
+.hero-image {
+  width: 100%;
+  max-width: 420px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  padding: var(--space-2);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.hero-image img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: calc(var(--radius-lg) - 6px);
+}
+
+/* ---------------------------------------------------------------------
+   8. ABOUT
+   --------------------------------------------------------------------- */
+.about-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  align-items: center;
+}
+
+.about-image {
+  width: 100%;
+  max-width: 420px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-soft);
+}
+
+.about-image img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+
+.about-text {
+  max-width: 560px;
+  text-align: center;
+}
+
+.about-text h3 {
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  font-weight: 600;
+  color: var(--color-gold-light);
+  margin-bottom: var(--space-4);
+}
+
+.about-text p {
+  margin-bottom: var(--space-4);
+}
+
+.about-text .btn {
+  margin-top: var(--space-3);
+}
+
+/* ---------------------------------------------------------------------
+   9. SKILLS
+   --------------------------------------------------------------------- */
+.skills {
+  background: var(--color-bg-alt);
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+}
+
+.skill-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  height: 100%;
+  box-shadow: var(--shadow-card);
+  transition: transform var(--dur-mid) var(--ease),
+              border-color var(--dur-fast) var(--ease);
+}
+
+.skill-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-border-strong);
+}
+
+.skill-card h3 {
+  color: var(--color-gold-light);
+  font-weight: 600;
+  margin-bottom: var(--space-3);
+}
+
+.skill-card p {
+  font-size: var(--fs-small);
+}
+
+/* ---------------------------------------------------------------------
+   10. STATS
+   --------------------------------------------------------------------- */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-6);
+  text-align: center;
+}
+
+.stat h2 {
+  font-size: clamp(2rem, 3vw + 1rem, 2.75rem);
+  background: var(--gradient-gold);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: var(--space-2);
+}
+
+.stat p {
+  font-size: var(--fs-small);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+}
+
+/* ---------------------------------------------------------------------
+   11. GALLERY
+   Every image shares the same ratio via aspect-ratio + object-fit.
+   --------------------------------------------------------------------- */
+.gallery {
+  background: var(--color-bg-alt);
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+}
+
+.gallery-grid img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-card);
+  transition: transform var(--dur-mid) var(--ease),
+              border-color var(--dur-fast) var(--ease);
+}
+
+.gallery-grid img:hover {
+  transform: scale(1.02);
+  border-color: var(--color-border-strong);
+}
+
+/* ---------------------------------------------------------------------
+   12. JOURNEY / TIMELINE
+   --------------------------------------------------------------------- */
+.timeline {
+  position: relative;
+  max-width: 680px;
+  margin-inline: auto;
+  padding-left: var(--space-6);
+  border-left: 1px solid var(--color-border);
+}
+
+.timeline-item {
+  position: relative;
+  padding-bottom: var(--space-8);
+  padding-left: var(--space-6);
+}
+
+.timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: calc(-1 * var(--space-6) - 5px);
+  top: 6px;
+  width: 10px;
+  height: 10px;
+  background: var(--gradient-gold);
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px var(--color-bg);
+}
+
+.timeline-item h3 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--color-gold-light);
+  margin-bottom: var(--space-2);
+}
+
+.timeline-item p {
+  font-size: var(--fs-small);
+  max-width: 46ch;
+}
+
+/* ---------------------------------------------------------------------
+   13. CONTACT
+   --------------------------------------------------------------------- */
+.contact-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  max-width: 420px;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.contact-box br {
+  display: none; /* spacing is handled by flex gap, not <br> */
+}
+
+.contact-box .btn {
+  width: 100%;
+}
+
+/* ---------------------------------------------------------------------
+   14. FOOTER
+   --------------------------------------------------------------------- */
+.footer {
+  padding-block: var(--space-8);
+  border-top: 1px solid var(--color-border);
+  text-align: center;
+  background: var(--color-bg);
+}
+
+.footer img {
+  margin-inline: auto;
+  margin-bottom: var(--space-4);
+  opacity: 0.9;
+}
+
+.footer h2 {
+  font-size: 1.5rem;
+  margin-bottom: var(--space-2);
+}
+
+.footer p {
+  font-size: var(--fs-small);
+  color: var(--color-text-faint);
+}
+
+.footer p + p {
+  margin-top: var(--space-2);
+}
+
+/* =====================================================================
+   15. RESPONSIVE BREAKPOINTS
+   Mobile-first. Each block lists every component change for that
+   breakpoint in one place — no scattered or conflicting queries.
+   ===================================================================== */
+
+/* ---- 360px : slightly roomier phones ---- */
+@media (min-width: 360px) {
+  .stats-grid {
+    gap: var(--space-7);
+  }
+}
+
+/* ---- 480px : large phones ---- */
+@media (min-width: 480px) {
+  .hero-buttons {
+    flex-wrap: nowrap;
+  }
+
+  .contact-box {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .contact-box .btn {
+    width: auto;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ---- 576px : small tablets ---- */
+@media (min-width: 576px) {
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ---- 768px : tablets ---- */
+@media (min-width: 768px) {
+  :root {
+    --container-pad: 2rem;
+  }
+
+  .about-content {
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    gap: var(--space-9);
+  }
+
+  .about-image {
+    flex: 0 0 42%;
+    max-width: none;
+  }
+
+  .about-text {
+    flex: 1;
+    text-align: left;
+    max-width: none;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .timeline {
+    padding-left: var(--space-8);
+  }
+
+  .timeline-item {
+    padding-left: var(--space-8);
+  }
+
+  .timeline-item::before {
+    left: calc(-1 * var(--space-8) - 5px);
+  }
+}
+
+/* ---- 992px : small desktops / navbar breakpoint ----
+   Mobile menu rules live below this line; desktop nav above it.
+
+   FIX (this revision): the previous version used position:fixed +
+   height:100vh, which produced the large full-screen black panel.
+   It's replaced with a small, auto-height dropdown that sits just
+   below the hamburger button — sized to its content (fit-content),
+   never the full viewport. The .active toggle and toggleMenu()
+   contract from main.js are unchanged; only how "open" looks has
+   changed, from a slide-in-from-right panel to a fade/scale-down
+   dropdown anchored at the top-right of the navbar. */
+@media (max-width: 991.98px) {
+  .menu-btn {
+    /* FIX: flex (not inline-flex) to match the column layout of the
+       three .menu-btn-bar elements now used for the icon. */
+    display: flex;
+  }
+
+  .nav-links {
+    /* Anchored to .navbar (position: relative, above), not .container —
+       right offset uses the same --container-pad the button sits
+       inside of, so the dropdown's right edge is pinned to the
+       hamburger's right edge exactly, not "wherever the padding box
+       happens to land". */
+    position: absolute;
+    top: calc(100% + 10px);
+    right: var(--container-pad);
+    left: auto;
+
+    /* FIX: auto/fit-content sizing instead of 100vh + fixed width */
+    width: max-content;
+    min-width: 200px;
+    max-width: calc(100vw - (2 * var(--container-pad)));
+    height: auto;
+
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-5);
+    padding: var(--space-5) var(--space-6);
+
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-soft), var(--shadow-gold);
+    z-index: 100;
+
+    /* Closed state: kept in the layout (not display:none) so the
+       existing transition can animate open/close smoothly. */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform-origin: top right;
+    transform: translateY(-8px) scale(0.96);
+    transition: opacity var(--dur-mid) var(--ease),
+                transform var(--dur-mid) var(--ease),
+                visibility var(--dur-mid) var(--ease);
+  }
+
+  /* Thin gold top edge so the dropdown reads as part of the premium
+     navbar rather than a generic floating card. */
+  .nav-links::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: var(--space-5);
+    right: var(--space-5);
+    height: 2px;
+    background: var(--gradient-gold);
+    border-radius: var(--radius-pill);
+  }
+
+  .nav-links.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+  }
+
+  .nav-links li {
+    width: 100%;
+  }
+
+  .nav-links a {
+    display: block;
+    width: 100%;
+    font-size: 1rem;
+    padding-block: var(--space-1);
+  }
+}
+
+@media (min-width: 992px) {
+  .hero-content {
+    flex-direction: row;
+    text-align: left;
+    justify-content: space-between;
+  }
+
+  .hero-text {
+    text-align: left;
+    max-width: 520px;
+  }
+
+  .hero-text h3 {
+    justify-content: flex-start;
+  }
+
+  .hero-buttons {
+    justify-content: flex-start;
+  }
+
+  .hero-image {
+    max-width: 440px;
+  }
+
+  .skills-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ---- 1200px : large desktops ---- */
+@media (min-width: 1200px) {
+  :root {
+    --section-pad: 8rem;
+  }
+
+  .hero-image {
+    max-width: 480px;
+  }
+}
+
+/* ---- 1400px : extra-large screens ---- */
+@media (min-width: 1400px) {
+  :root {
+    --container-width: 1320px;
+  }
+}
+
+/* =====================================================================
+   JS CONTRACT
+   This stylesheet expects assets/js/main.js's toggleMenu() to toggle
+   the class "active" on #navLinks (the .nav-links element). No HTML
+   or JS files were modified to produce this stylesheet.
+   ===================================================================== */

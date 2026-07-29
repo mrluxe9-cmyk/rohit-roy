@@ -1,0 +1,19 @@
+{
+  "name": "MR LUXE | Rohit Roy",
+  "short_name": "MR LUXE",
+  "description": "Official website of Rohit Roy, Founder of MR LUXE — premium jewellery packaging.",
+  "start_url": "/rohit-roy/",
+  "scope": "/rohit-roy/",
+  "display": "standalone",
+  "background_color": "#0a0a0c",
+  "theme_color": "#0a0a0c",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "assets/icons/favicon.png",
+      "sizes": "1080x1080",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
